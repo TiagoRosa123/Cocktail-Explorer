@@ -152,7 +152,7 @@ function App() {
       />
 
       <footer className="text-center py-4 text-white-50 border-top border-secondary mt-auto">
-        <p className="mb-0 small">&copy; 2025 Cocktail Explorer | Projeto React</p>
+        <p className="mb-0 small">&copy; 2025 Cocktail Explorer v1.2</p>
       </footer>
     </div>
   );
