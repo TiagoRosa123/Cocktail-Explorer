@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* --- 1. FUNDO E TEXTO GERAL (DARK MODE) --- */
+body, html, #root {
+  font-family: 'Poppins', sans-serif;
+  background-color: #121212 !important; /* Preto quase total */
+  color: #e0e0e0; /* Texto quase branco */
+  min-height: 100vh;
+}
+
+/* --- 2. HERO SECTION (A CAPA GIGANTE) --- */
+.hero-section {
+  /* Imagem de fundo de um bar escuro */
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(18,18,18,1)), 
+              url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  padding: 100px 0 80px 0;
+  margin-bottom: 40px;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+
+.hero-title {
+  font-weight: 700;
+  background: -webkit-linear-gradient(#f8cdda, #1d2671); /* Degradê no texto */
+  background: linear-gradient(to right, #ff9966, #ff5e62);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+}
+
+/* --- 3. CARTÕES (GLASSMORPHISM - VIDRO) --- */
+.card {
+  background: #1e1e1e !important; /* Cinza escuro */
+  border: 1px solid #333 !important;
+  border-radius: 15px !important;
+  color: white;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px rgba(255, 94, 98, 0.4) !important; /* Brilho neon ao passar o rato */
+  border-color: #ff5e62 !important;
+}
+
+.card-title {
+  font-weight: 600;
+  color: #fff;
+}
+
+.text-muted {
+  color: #aaa !important; /* Corrige o texto cinza para se ver no fundo preto */
+}
+
+/* Configuração da Imagem */
+.card-img-top {
+  height: 250px;
+  width: 100%;
+  
+  /* ESTADO NORMAL: Bonito e preenchido */
+  object-fit: cover;       /* Faz zoom para preencher o espaço */
+  object-position: top;    /* Foca no topo (onde costuma estar a bebida) */
+  
+  background-color: #000;  /* Fundo preto (prepara para o hover) */
+  transition: transform 0.3s ease; /* Mantém a transição de zoom se quiseres */
+}
+
+/* ESTADO HOVER: Mostra a verdade! */
+.card:hover .card-img-top {
+  /* Truque Mágico: Muda para 'contain' ao passar o rato */
+  object-fit: contain;     /* Obriga a imagem a aparecer toda */
+  transform: scale(1);     /* Garante que a imagem não sai para fora */
+}
+
+/* --- 4. INPUTS DE PESQUISA --- */
+.form-control {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  color: white !important;
+  border-radius: 50px !important;
+  padding: 15px 25px;
+}
+
+.form-control:focus {
+  background-color: #333;
+  border-color: #ff5e62;
+  box-shadow: 0 0 10px rgba(255, 94, 98, 0.3);
+}
+
+/* Placeholder (texto de ajuda) mais claro */
+.form-control::placeholder {
+  color: #888;
+}
+
+/* --- 5. BOTÕES --- */
+.btn {
+  border-radius: 50px !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: linear-gradient(45deg, #ff512f, #dd2476);
+  border: none;
+}
+
+.btn-outline-primary, .btn-outline-success, .btn-outline-info {
+  border-width: 2px;
+  color: white;
+}
+
+.btn-outline-primary:hover { background: #ff512f; border-color: #ff512f; }
+.btn-outline-success:hover { background: #11998e; border-color: #11998e; }
+.btn-outline-info:hover { background: #2193b0; border-color: #2193b0; }
+
+/* Paginação */
+.page-link {
+  background-color: #2d2d2d;
+  border-color: #444;
+  color: white;
+}
+.page-link:hover {
+  background-color: #ff5e62;
+  color: white;
+}
