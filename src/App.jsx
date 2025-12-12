@@ -216,6 +216,7 @@ function App() {
           onBack={() => setSelectedDrink(null)} 
           isFavorite={favorites.some(f => f.idDrink === selectedDrink.idDrink)}
           onToggleFavorite={() => toggleFavorite(selectedDrink)}
+          onSelect={handleSelectDrink}
         />
       </div>
     );

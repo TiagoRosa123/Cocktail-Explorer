@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { filterDrinksByCategory } from '../services/cocktailService';
 
-function DrinkDetail({ drink, onBack, isFavorite, onToggleFavorite }) {
+function DrinkDetail({ drink, onBack, isFavorite, onToggleFavorite, onSelect }) {
   
   const getIngredients = () => {
     let ingredients = [];
@@ -43,6 +44,25 @@ function DrinkDetail({ drink, onBack, isFavorite, onToggleFavorite }) {
     if (!drink[langMap[language]]) {
         setLanguage('EN');
     }
+  }, [drink]);
+
+  // --- Recommendations Logic ---
+  const [recommendations, setRecommendations] = useState([]);
+
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      if (!drink.strCategory) return;
+      try {
+        const data = await filterDrinksByCategory(drink.strCategory);
+        // Filter out current drink, shuffle, and take 3
+        const others = data.filter(d => d.idDrink !== drink.idDrink);
+        const shuffled = others.sort(() => 0.5 - Math.random());
+        setRecommendations(shuffled.slice(0, 3));
+      } catch (err) {
+        console.error("Failed to load recommendations", err);
+      }
+    };
+    fetchRecommendations();
   }, [drink]);
 
   return (
@@ -137,6 +157,35 @@ function DrinkDetail({ drink, onBack, isFavorite, onToggleFavorite }) {
                   </div>
                 </div>
               )}
+
+
+              {/* Recommendations Section */}
+              {recommendations.length > 0 && (
+                <div className="mt-5 pt-4 border-top border-secondary">
+                  <h4 className="text-white mb-4">You Might Also Like 🍹</h4>
+                  <div className="row">
+                    {recommendations.map(rec => (
+                      <div key={rec.idDrink} className="col-4 mb-3">
+                        <div 
+                          className="card bg-transparent border-0 h-100 text-center"
+                          style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
+                          onClick={() => onSelect(rec)}
+                          onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                          onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        >
+                          <img 
+                            src={rec.strDrinkThumb} 
+                            className="card-img-top rounded shadow-sm mb-2" 
+                            alt={rec.strDrink} 
+                          />
+                          <h6 className="text-white small text-truncate px-1">{rec.strDrink}</h6>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
             </div>
           </div>
         </div>
