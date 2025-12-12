@@ -70,7 +70,7 @@ function Navbar({ onHome, onRandom, onCategory }) {
                     onHome();      // <--- Reseta a pesquisa
                 }}
               >
-                Início
+                Home
               </button>
             </li>
 
@@ -82,7 +82,7 @@ function Navbar({ onHome, onRandom, onCategory }) {
 
             <li className="nav-item">
               <button className="nav-link btn btn-link text-white" onClick={() => onCategory('Soft_Drink')}>
-                Sem Álcool
+                Non-alcoholic
               </button>
             </li>
 

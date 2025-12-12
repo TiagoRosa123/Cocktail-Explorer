@@ -17,7 +17,7 @@ function DrinkDetail({ drink, onBack }) {
   return (
     <div className="container mt-5">
       <button className="btn btn-outline-light mb-4" onClick={onBack}>
-        ⬅ Voltar à lista
+        ⬅ Back to list
       </button>
 
       {/* bg-dark e text-white para o cartão de detalhe */}
@@ -41,11 +41,11 @@ function DrinkDetail({ drink, onBack }) {
               
               <hr className="border-secondary my-4" />
 
-              <h5 className="text-info mb-3">Instruções</h5>
+              <h5 className="text-info mb-3">Instructions</h5>
               <p className="card-text lead fs-6">{drink.strInstructions}</p>
 
               <div className="mt-4">
-                <h5 className="text-warning mb-3">Ingredientes</h5>
+                <h5 className="text-warning mb-3">Ingredients</h5>
                 <ul className="list-group list-group-flush">
                   {getIngredients().map((item, index) => (
                     // Fundo transparente e texto branco na lista

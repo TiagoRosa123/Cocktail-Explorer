@@ -27,7 +27,7 @@ function DrinkCard({ drink, onSelect }) {
                 className="btn btn-primary w-100 mt-2"
                 onClick={() => onSelect(drink)} 
             >
-                Ver Receita
+                Check Recipe
             </button>
           </div>
         </div>
