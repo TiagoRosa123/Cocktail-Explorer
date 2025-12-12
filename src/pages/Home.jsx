@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import React from 'react';
 import DrinkCard from '../components/DrinkCard';
+import { Analytics } from "@vercel/analytics/next"
 
 function Home({ 
   searchTerm, setSearchTerm, 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import DrinkDetail from './components/DrinkDetail';
 import Home from './pages/Home'; // Importamos a página Home
+import { Analytics } from "@vercel/analytics/next"
 
 // Importamos as funções da API da nossa nova pasta services
 import * as api from './services/cocktailService'; 
