@@ -1,6 +1,6 @@
 import React from 'react';
 
-function DrinkDetail({ drink, onBack }) {
+function DrinkDetail({ drink, onBack, isFavorite, onToggleFavorite }) {
   
   const getIngredients = () => {
     let ingredients = [];
@@ -20,7 +20,6 @@ function DrinkDetail({ drink, onBack }) {
         ⬅ Back to list
       </button>
 
-      {/* bg-dark e text-white para o cartão de detalhe */}
       <div className="card shadow-lg bg-dark text-white border-secondary">
         <div className="row g-0">
           <div className="col-md-5">
@@ -34,7 +33,23 @@ function DrinkDetail({ drink, onBack }) {
 
           <div className="col-md-7">
             <div className="card-body p-5">
-              <h1 className="display-4 fw-bold mb-2" style={{ color: '#ff5e62' }}>{drink.strDrink}</h1>
+              <div className="d-flex justify-content-between align-items-start">
+                  <h1 className="display-4 fw-bold mb-2" style={{ color: '#ff5e62' }}>{drink.strDrink}</h1>
+                  <button 
+                    className="btn btn-lg rounded-circle shadow-sm"
+                    style={{ 
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+                        border: '1px solid #ff5e62',
+                        color: isFavorite ? '#ff5e62' : 'white',
+                        width: '50px', height: '50px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}
+                    onClick={() => onToggleFavorite(drink)}
+                  >
+                    {isFavorite ? '❤' : '🤍'}
+                  </button>
+              </div>
+              
               <p className="text-muted text-uppercase small tracking-wide">
                 {drink.strCategory} | {drink.strAlcoholic}
               </p>
@@ -48,7 +63,6 @@ function DrinkDetail({ drink, onBack }) {
                 <h5 className="text-warning mb-3">Ingredients</h5>
                 <ul className="list-group list-group-flush">
                   {getIngredients().map((item, index) => (
-                    // Fundo transparente e texto branco na lista
                     <li key={index} className="list-group-item bg-transparent text-white border-secondary ps-0">
                       • {item}
                     </li>

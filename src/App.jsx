@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import DrinkDetail from './components/DrinkDetail';
-import Home from './pages/Home'; // Importamos a página Home
-
-// Importamos as funções da API da nossa nova pasta services
+import Home from './pages/Home';
 import * as api from './services/cocktailService'; 
 
 function App() {
@@ -12,6 +10,13 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  // Favorites System
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem('cocktails_favorites');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [viewFavorites, setViewFavorites] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState('margarita');
   const [selectedDrink, setSelectedDrink] = useState(null);
   const [searchType, setSearchType] = useState('name'); 
@@ -21,10 +26,11 @@ function App() {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  // --- FUNÇÕES DE LÓGICA (Agora usam o 'api.') ---
 
   // 1. Pesquisa Principal
   useEffect(() => {
+    if (viewFavorites) return; // Don't fetch if viewing favorites
+
     const loadDrinks = async () => {
       setLoading(true);
       setError(null);
@@ -48,10 +54,26 @@ function App() {
     if (searchTerm.trim() !== '') {
       loadDrinks();
     }
-  }, [searchTerm, searchType]);
+  }, [searchTerm, searchType, viewFavorites]);
+
+  // Persist favorites
+  useEffect(() => {
+    localStorage.setItem('cocktails_favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  const toggleFavorite = (drink) => {
+    const isFav = favorites.some(f => f.idDrink === drink.idDrink);
+    if (isFav) {
+      setFavorites(favorites.filter(f => f.idDrink !== drink.idDrink));
+    } else {
+      setFavorites([...favorites, drink]);
+    }
+  };
+
 
   // 2. Filtro Categoria
   const handleCategory = async (category) => {
+    setViewFavorites(false); // Exit favorites view
     setLoading(true); setSearchTerm(''); 
     try {
       const data = await api.filterDrinksByCategory(category);
@@ -63,6 +85,7 @@ function App() {
 
   // 3. Filtro Letra
   const handleLetter = async (letter) => {
+    setViewFavorites(false);
     setLoading(true); setSearchTerm(''); 
     try {
       const data = await api.searchDrinksByLetter(letter);
@@ -93,12 +116,29 @@ function App() {
     finally { setLoading(false); }
   };
 
+  // 6. Handle Favorites View
+  const handleShowFavorites = () => {
+    setViewFavorites(true);
+    setSearchTerm('');
+    setCurrentPage(1);
+  };
+
+  const handleHome = () => {
+     setViewFavorites(false);
+     setSearchTerm('margarita');
+     setSearchType('name');
+     setCurrentPage(1);
+  };
+
+
   // --- CÁLCULOS PAGINAÇÃO ---
-  // --- CÁLCULOS PAGINAÇÃO ---
+  // If viewing favorites, use favorites array instead of drinks
+  const displayDrinks = viewFavorites ? favorites : drinks;
+
   const indexOfLastDrink = currentPage * drinksPerPage;
   const indexOfFirstDrink = indexOfLastDrink - drinksPerPage;
-  const currentDrinks = Array.isArray(drinks) ? drinks.slice(indexOfFirstDrink, indexOfLastDrink) : [];
-  const totalPages = Math.ceil((drinks?.length || 0) / drinksPerPage);
+  const currentDrinks = Array.isArray(displayDrinks) ? displayDrinks.slice(indexOfFirstDrink, indexOfLastDrink) : [];
+  const totalPages = Math.ceil((displayDrinks?.length || 0) / drinksPerPage);
 
   
   const paginate = (pageNumber) => {
@@ -114,11 +154,17 @@ function App() {
     return (
       <div className="bg-dark min-vh-100 text-white">
         <Navbar 
-            onHome={() => { setSelectedDrink(null); setSearchTerm('margarita'); }} 
+            onHome={() => { setSelectedDrink(null); handleHome(); }} 
             onRandom={handleRandom} 
             onCategory={handleCategory} 
+            onShowFavorites={() => { setSelectedDrink(null); handleShowFavorites(); }}
         />
-        <DrinkDetail drink={selectedDrink} onBack={() => setSelectedDrink(null)} />
+        <DrinkDetail 
+          drink={selectedDrink} 
+          onBack={() => setSelectedDrink(null)} 
+          isFavorite={favorites.some(f => f.idDrink === selectedDrink.idDrink)}
+          onToggleFavorite={() => toggleFavorite(selectedDrink)}
+        />
       </div>
     );
   }
@@ -127,12 +173,16 @@ function App() {
   return (
     <div className="bg-dark min-vh-100 text-white">
       <Navbar 
-        onHome={() => { setSearchTerm('margarita'); setSearchType('name'); setCurrentPage(1); }}
+        onHome={handleHome}
         onRandom={handleRandom}
         onCategory={handleCategory}
+        onShowFavorites={handleShowFavorites}
       />
       
-      {/* Agora passamos tudo para o componente Home */}
+      <div className={viewFavorites ? "container mt-4" : ""}>
+        {viewFavorites && <h2 className="text-center text-danger mb-4">My Favorite Cocktails ({favorites.length})</h2>}
+      </div>
+
       <Home 
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -142,13 +192,17 @@ function App() {
         onRandom={handleRandom}
         loading={loading}
         error={error}
-        drinks={currentDrinks} // Passamos só os drinks da página atual
+        drinks={currentDrinks} 
         onSelectDrink={handleSelectDrink}
         currentPage={currentPage}
         totalPages={totalPages}
         paginate={paginate}
         alphabet={alphabet}
         onLetterClick={handleLetter}
+        // Props for favorites
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
+        isFavoritesView={viewFavorites}
       />
 
       <footer className="text-center py-4 text-white-50 border-top border-secondary mt-auto">

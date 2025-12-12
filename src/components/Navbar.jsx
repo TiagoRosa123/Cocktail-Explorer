@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Navbar({ onHome, onRandom, onCategory }) {
+function Navbar({ onHome, onRandom, onCategory, onShowFavorites }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -15,11 +15,10 @@ function Navbar({ onHome, onRandom, onCategory }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // --- NOVA FUNÇÃO: Rola suavemente para o topo ---
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth' // Faz o movimento deslizar em vez de saltar
+      behavior: 'smooth' 
     });
   };
 
@@ -34,14 +33,13 @@ function Navbar({ onHome, onRandom, onCategory }) {
     >
       <div className="container">
         
-        {/* LOGO (Agora também leva ao topo) */}
         <a 
           className="navbar-brand fw-bold text-uppercase" 
           href="#" 
           onClick={(e) => { 
             e.preventDefault(); 
-            scrollToTop(); // <--- Rola para cima
-            onHome();      // <--- Reseta a pesquisa
+            scrollToTop(); 
+            onHome();     
           }} 
           style={{ letterSpacing: '2px', color: '#ff5e62' }}
         >
@@ -61,13 +59,12 @@ function Navbar({ onHome, onRandom, onCategory }) {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto align-items-center">
             
-            {/* BOTÃO INÍCIO (Agora também leva ao topo) */}
             <li className="nav-item">
               <button 
                 className="nav-link btn btn-link text-white" 
                 onClick={() => {
-                    scrollToTop(); // <--- Rola para cima
-                    onHome();      // <--- Reseta a pesquisa
+                    scrollToTop(); 
+                    onHome();     
                 }}
               >
                 Home
@@ -86,16 +83,27 @@ function Navbar({ onHome, onRandom, onCategory }) {
               </button>
             </li>
 
+            <li className="nav-item">
+              <button 
+                className="nav-link btn btn-link text-white" 
+                onClick={() => {
+                  scrollToTop();
+                  onShowFavorites();
+                }}
+              >
+                My Bar
+              </button>
+            </li>
+
             <li className="nav-item ms-lg-2 mt-2 mt-lg-0">
               <button 
                 className="btn btn-sm fw-bold px-3" 
                 onClick={onRandom}
                 style={{ 
-                  // MUDANÇA AQUI: Degradê Roxo Misterioso
                   background: 'linear-gradient(45deg, #8E2DE2, #4A00E0)', 
                   color: 'white', 
                   border: 'none',
-                  boxShadow: '0 4px 15px rgba(138, 45, 226, 0.4)' // Sombra roxa brilhante
+                  boxShadow: '0 4px 15px rgba(138, 45, 226, 0.4)'
                 }}
               >
                 Pick my poison!

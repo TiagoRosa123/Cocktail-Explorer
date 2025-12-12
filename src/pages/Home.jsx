@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React from 'react';
 import DrinkCard from '../components/DrinkCard';
 
@@ -10,7 +9,8 @@ function Home({
   drinks, 
   onSelectDrink, 
   currentPage, totalPages, paginate,
-  alphabet, onLetterClick 
+  alphabet, onLetterClick,
+  favorites = [], onToggleFavorite
 }) {
   
   return (
@@ -82,7 +82,13 @@ function Home({
         {/* LISTAGEM */}
         <div className="row">
           {!loading && drinks.map((drink) => (
-            <DrinkCard key={drink.idDrink} drink={drink} onSelect={onSelectDrink} />
+            <DrinkCard 
+              key={drink.idDrink} 
+              drink={drink} 
+              onSelect={onSelectDrink}
+              isFavorite={favorites.some(f => f.idDrink === drink.idDrink)}
+              onToggleFavorite={onToggleFavorite}
+            />
           ))}
         </div>
 
