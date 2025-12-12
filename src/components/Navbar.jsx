@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Navbar({ onHome, onRandom, onCategory, onShowFavorites }) {
+function Navbar({ onHome, onRandom, onCategory, onAlcoholicFilter, onShowFavorites }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -78,8 +78,8 @@ function Navbar({ onHome, onRandom, onCategory, onShowFavorites }) {
             </li>
 
             <li className="nav-item">
-              <button className="nav-link btn btn-link text-white" onClick={() => onCategory('Soft_Drink')}>
-                Non-alcoholic
+              <button className="nav-link btn btn-link text-white" onClick={() => onAlcoholicFilter('Non_Alcoholic')}>
+                Mocktails
               </button>
             </li>
 

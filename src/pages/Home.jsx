@@ -10,7 +10,8 @@ function Home({
   onSelectDrink, 
   currentPage, totalPages, paginate,
   alphabet, onLetterClick,
-  favorites = [], onToggleFavorite
+  favorites = [], onToggleFavorite,
+  onAlcoholicFilter
 }) {
   
   return (
@@ -55,7 +56,7 @@ function Home({
             <div className="d-flex justify-content-center gap-2 mt-4 flex-wrap">
               <button className="btn btn-outline-primary rounded-pill" onClick={() => onCategory('Cocktail')}>🍸 Cocktails</button>
               <button className="btn btn-outline-success rounded-pill" onClick={() => onCategory('Ordinary_Drink')}>🍹 Usuals</button>
-              <button className="btn btn-outline-info rounded-pill" onClick={() => onCategory('Soft_Drink')}>🥤 Non-alcoholic</button>
+              <button className="btn btn-outline-info rounded-pill" onClick={() => onAlcoholicFilter('Non_Alcoholic')}>🥤 Mocktails</button>
               
               <button 
                 className="btn btn-sm fw-bold px-3 py-2" 

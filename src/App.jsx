@@ -83,6 +83,18 @@ function App() {
     finally { setLoading(false); }
   };
 
+  // 2.1 Filtro Alcool
+  const handleAlcoholicFilter = async (type) => {
+    setViewFavorites(false);
+    setLoading(true); setSearchTerm('');
+    try {
+      const data = await api.filterDrinksByAlcoholic(type);
+      setDrinks(data);
+      setCurrentPage(1);
+    } catch (err) { console.error(err); }
+    finally { setLoading(false); }
+  };
+
   // 3. Filtro Letra
   const handleLetter = async (letter) => {
     setViewFavorites(false);
@@ -147,6 +159,45 @@ function App() {
   };
 
 
+  // 7. Enrich Data (Buscar detalhes em falta para a página atual)
+  useEffect(() => {
+    const fetchMissingDetails = async () => {
+      // Identifica bebidas na página atual que não têm a info 'strAlcoholic'
+      const missing = currentDrinks.filter(d => !d.strAlcoholic);
+      
+      if (missing.length === 0) return;
+
+      try {
+        // Busca detalhes em paralelo
+        const responses = await Promise.all(
+          missing.map(d => api.getDrinkDetails(d.idDrink))
+        );
+
+        // Cria um mapa para acesso rápido: id -> detalhes
+        const detailsMap = {};
+        responses.forEach(d => {
+          if (d) detailsMap[d.idDrink] = d;
+        });
+
+        // Função auxiliar para atualizar a lista correta
+        const updateList = (list) => list.map(item => 
+          detailsMap[item.idDrink] ? { ...item, ...detailsMap[item.idDrink] } : item
+        );
+
+        if (viewFavorites) {
+          setFavorites(prev => updateList(prev));
+        } else {
+          setDrinks(prev => updateList(prev));
+        }
+      } catch (err) {
+        console.error("Failed to fetch missing details", err);
+      }
+    };
+
+    fetchMissingDetails();
+  }, [currentDrinks, viewFavorites]);
+
+
   // --- RENDERIZAÇÃO ---
   
   // Se tiver bebida selecionada, mostra Detalhe
@@ -157,6 +208,7 @@ function App() {
             onHome={() => { setSelectedDrink(null); handleHome(); }} 
             onRandom={handleRandom} 
             onCategory={handleCategory} 
+            onAlcoholicFilter={handleAlcoholicFilter}
             onShowFavorites={() => { setSelectedDrink(null); handleShowFavorites(); }}
         />
         <DrinkDetail 
@@ -176,6 +228,7 @@ function App() {
         onHome={handleHome}
         onRandom={handleRandom}
         onCategory={handleCategory}
+        onAlcoholicFilter={handleAlcoholicFilter}
         onShowFavorites={handleShowFavorites}
       />
       
@@ -189,6 +242,7 @@ function App() {
         searchType={searchType}
         setSearchType={setSearchType}
         onCategory={handleCategory}
+        onAlcoholicFilter={handleAlcoholicFilter}
         onRandom={handleRandom}
         loading={loading}
         error={error}

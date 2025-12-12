@@ -20,6 +20,12 @@ export const filterDrinksByCategory = async (category) => {
   return data.drinks || [];
 };
 
+export const filterDrinksByAlcoholic = async (type) => {
+  const response = await fetch(`${BASE_URL}/filter.php?a=${type}`);
+  const data = await response.json();
+  return data.drinks || [];
+};
+
 export const searchDrinksByLetter = async (letter) => {
   const response = await fetch(`${BASE_URL}/search.php?f=${letter}`);
   const data = await response.json();
