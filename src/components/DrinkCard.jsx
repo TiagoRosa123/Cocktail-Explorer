@@ -5,7 +5,7 @@ function DrinkCard({ drink, onSelect, isFavorite, onToggleFavorite }) {
     <div className="col-md-4 col-sm-6 mb-4">
       <div className="card h-100 shadow-sm border-0 position-relative">
         <button 
-          className="btn position-absolute top-0 end-0 m-2 rounded-circle shadow-sm"
+          className="btn position-absolute top-0 end-0 m-2 rounded-circle shadow-sm heart-btn"
           style={{ 
             backgroundColor: 'rgba(255, 255, 255, 0.8)', 
             border: 'none', 
@@ -14,8 +14,7 @@ function DrinkCard({ drink, onSelect, isFavorite, onToggleFavorite }) {
             zIndex: 10,
             color: isFavorite ? '#ff4757' : '#ccc',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '1.2rem',
-            transition: 'all 0.2s'
+            fontSize: '1.2rem'
           }}
           onClick={(e) => {
             e.stopPropagation();

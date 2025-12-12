@@ -11,7 +11,8 @@ function Home({
   currentPage, totalPages, paginate,
   alphabet, onLetterClick,
   favorites = [], onToggleFavorite,
-  onAlcoholicFilter
+  onAlcoholicFilter,
+  isFavoritesView
 }) {
   
   return (
@@ -76,8 +77,17 @@ function Home({
         {/* LOADING / ERROR */}
         {loading && <div className="text-center py-5 text-white"><h3>Shaking... ⏳</h3></div>}
         {error && <div className="alert alert-danger">{error}</div>}
-        {!loading && drinks.length === 0 && searchTerm !== '' && (
-           <div className="text-center text-muted py-5"><h3>Nothing found. 😕</h3></div>
+        {!loading && drinks.length === 0 && (
+           <div className="text-center text-muted py-5 fade-in">
+             {isFavoritesView ? (
+               <>
+                 <h3>No favorites yet 💔</h3>
+                 <p>Go back and add some drinks to your list!</p>
+               </>
+             ) : (
+               searchTerm !== '' && <h3>Nothing found. 😕</h3>
+             )}
+           </div>
         )}
         
         {/* LISTAGEM */}

@@ -66,7 +66,7 @@ function DrinkDetail({ drink, onBack, isFavorite, onToggleFavorite, onSelect }) 
   }, [drink]);
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 fade-in">
       <button className="btn btn-outline-light mb-4" onClick={onBack}>
         ⬅ Back to list
       </button>

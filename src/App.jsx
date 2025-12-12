@@ -233,8 +233,13 @@ function App() {
         onShowFavorites={handleShowFavorites}
       />
       
-      <div className={viewFavorites ? "container mt-4" : ""}>
-        {viewFavorites && <h2 className="text-center text-danger mb-4">My Favorite Cocktails ({favorites.length})</h2>}
+      <div className={viewFavorites ? "container mt-4 fade-in" : ""}>
+        {viewFavorites && (
+          <div className="text-center mb-5">
+            <h2 className="display-5 fw-bold text-danger">My Private Bar ❤️</h2>
+            <p className="text-muted">You have collected {favorites.length} drinks.</p>
+          </div>
+        )}
       </div>
 
       <Home 

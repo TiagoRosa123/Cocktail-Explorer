@@ -1,8 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
 
 /* --- 1. FUNDO E TEXTO GERAL (DARK MODE) --- */
-body, html, #root {
-  font-family: 'Poppins', sans-serif;
+body,
+html,
+#root {
+  font-family: "Poppins", sans-serif;
   background-color: #121212 !important; /* Preto quase total */
   color: #e0e0e0; /* Texto quase branco */
   min-height: 100vh;
@@ -11,8 +13,8 @@ body, html, #root {
 /* --- 2. HERO SECTION (A CAPA GIGANTE) --- */
 .hero-section {
   /* Imagem de fundo de um bar escuro */
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(18,18,18,1)), 
-              url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(18, 18, 18, 1)),
+    url("https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80");
   background-size: cover;
   background-position: center;
   padding: 100px 0 80px 0;
@@ -61,20 +63,20 @@ body, html, #root {
 .card-img-top {
   height: 250px;
   width: 100%;
-  
+
   /* ESTADO NORMAL: Bonito e preenchido */
-  object-fit: cover;       /* Faz zoom para preencher o espaço */
-  object-position: top;    /* Foca no topo (onde costuma estar a bebida) */
-  
-  background-color: #000;  /* Fundo preto (prepara para o hover) */
+  object-fit: cover; /* Faz zoom para preencher o espaço */
+  object-position: top; /* Foca no topo (onde costuma estar a bebida) */
+
+  background-color: #000; /* Fundo preto (prepara para o hover) */
   transition: transform 0.3s ease; /* Mantém a transição de zoom se quiseres */
 }
 
 /* ESTADO HOVER: Mostra a verdade! */
 .card:hover .card-img-top {
   /* Truque Mágico: Muda para 'contain' ao passar o rato */
-  object-fit: contain;     /* Obriga a imagem a aparecer toda */
-  transform: scale(1);     /* Garante que a imagem não sai para fora */
+  object-fit: contain; /* Obriga a imagem a aparecer toda */
+  transform: scale(1); /* Garante que a imagem não sai para fora */
 }
 
 /* --- 4. INPUTS DE PESQUISA --- */
@@ -110,14 +112,25 @@ body, html, #root {
   border: none;
 }
 
-.btn-outline-primary, .btn-outline-success, .btn-outline-info {
+.btn-outline-primary,
+.btn-outline-success,
+.btn-outline-info {
   border-width: 2px;
   color: white;
 }
 
-.btn-outline-primary:hover { background: #ff512f; border-color: #ff512f; }
-.btn-outline-success:hover { background: #11998e; border-color: #11998e; }
-.btn-outline-info:hover { background: #2193b0; border-color: #2193b0; }
+.btn-outline-primary:hover {
+  background: #ff512f;
+  border-color: #ff512f;
+}
+.btn-outline-success:hover {
+  background: #11998e;
+  border-color: #11998e;
+}
+.btn-outline-info:hover {
+  background: #2193b0;
+  border-color: #2193b0;
+}
 
 /* Paginação */
 .page-link {
@@ -128,4 +141,41 @@ body, html, #root {
 .page-link:hover {
   background-color: #ff5e62;
   color: white;
+}
+
+/* --- 6. ANIMAÇÕES --- */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.heart-btn:active {
+  animation: pulse 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
